@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Happy Birthday Batoota 🦆🎂</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Cairo -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { cairo: ['Cairo', 'sans-serif'] },
+                    colors: { 'pastel-pink': '#ffe4e6', 'soft-gold': '#d4af37', 'whatsapp-green': '#dcf8c6' }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+            overflow: hidden;
+            background: linear-gradient(135deg, #fff0f5 0%, #ffe4e6 100%);
+            transition: background 1s ease;
+            touch-action: none;
+        }
+
+        .dark-mode { background: #1a1a2e; }
+
+        @keyframes floatUp {
+            0% { transform: translateY(110vh) scale(0.5) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.8; }
+            90% { opacity: 0.8; }
+            100% { transform: translateY(-20vh) scale(1.2) rotate(360deg); opacity: 0; }
+        }
+        .particle {
+            position: absolute;
+            bottom: -50px;
+            pointer-events: none;
+            z-index: 1;
+            animation: floatUp 12s linear infinite;
+        }
+
+        @keyframes popUp {
+            0% { transform: scale(0.5) translateY(0); opacity: 1; }
+            100% { transform: scale(1.5) translateY(-50px); opacity: 0; }
+        }
+        .tap-effect {
+            position: absolute;
+            pointer-events: none;
+            z-index: 50;
+            animation: popUp 1s ease-out forwards;
+            font-size: 1.5rem;
+        }
+
+        .polaroid {
+            background: white;
+            padding: 12px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+        }
+
+        @keyframes fireworkBurst {
+            0% { transform: scale(0); opacity: 1; }
+            100% { transform: scale(3); opacity: 0; }
+        }
+        .firework {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 15;
+            animation: fireworkBurst 1s ease-out forwards;
+            box-shadow: 0 0 10px 5px currentColor;
+        }
+
+        .fade-enter {
+            opacity: 0;
+            transform: scale(0.9) translateY(20px);
+            transition: all 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .fade-enter-active { opacity: 1; transform: scale(1) translateY(0); }
+        .fade-exit { opacity: 1; transform: scale(1); transition: all 0.4s ease-in; }
+        .fade-exit-active { opacity: 0; transform: scale(1.1); }
+
+        @keyframes subtleZoom { 0% { transform: scale(1); } 100% { transform: scale(1.08); } }
+        .photo-zoom { animation: subtleZoom 8s ease-in-out infinite alternate; }
+
+        @keyframes softPulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(0.95); } }
+        .animate-soft-pulse { animation: softPulse 2s ease-in-out infinite; }
+
+        .typing-cursor::after { content: '|'; animation: blink 1s step-end infinite; color: #d4af37; }
+        @keyframes blink { 50% { opacity: 0; } }
+
+        /* ------------------ الدردشة الوهمية ------------------ */
+        .chat-container {
+            background: #efe7dd;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        .chat-header {
+            background: #075e54;
+            color: white;
+            padding: 10px 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .chat-body {
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            height: 250px;
+            overflow-y: auto;
+        }
+        .chat-bubble {
+            max-width: 80%;
+            padding: 8px 12px;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            position: relative;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.4s ease;
+        }
+        .chat-bubble.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .chat-sent {
+            background: #dcf8c6;
+            align-self: flex-start;
+            border-top-right-radius: 0;
+        }
+        .chat-received {
+            background: white;
+            align-self: flex-end;
+            border-top-left-radius: 0;
+        }
+
+        /* ------------------ شهادة التقدير ------------------ */
+        .certificate-container {
+            background: #fff;
+            border: 8px solid #d4af37;
+            padding: 20px;
+            border-radius: 10px;
+            position: relative;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+        .certificate-container::before {
+            content: '';
+            position: absolute;
+            inset: 4px;
+            border: 1px dashed #d4af37;
+        }
+
+        /* ------------------ مصباح علاء الدين ------------------ */
+        #magic-lamp { cursor: pointer; user-select: none; transition: transform 0.1s ease-in-out; }
+        
+        /* ------------------ اختراق النظام ------------------ */
+        .hacker-line { opacity: 0; margin-bottom: 8px; transition: opacity 0.1s; direction: ltr; text-align: left; }
+
+        #game-screen { background: #87CEEB; }
+        #gameCanvas { image-rendering: pixelated; }
+
+        .scrollbar-hide::-webkit-scrollbar { display: none; }
+        .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="font-cairo h-screen w-full relative flex items-center justify-center" id="main-container">
+
+    <audio id="audio-player"></audio>
+
+    <div id="particles-container" class="absolute inset-0 overflow-hidden pointer-events-none z-0"></div>
+
+    <!-- 1. شاشة البداية -->
+    <div id="intro-screen" class="z-10 flex flex-col items-center justify-center text-center p-6 w-full max-w-md transition-all duration-500">
+        <div class="text-7xl mb-6 drop-shadow-md animate-bounce" style="animation-duration: 2.5s;">🎂🦆</div>
+        <h1 class="text-4xl md:text-5xl font-bold text-pink-500 mb-4 drop-shadow-sm leading-tight">
+            Happy Birthday<br>ya Batoota 🤍
+        </h1>
+        <p class="text-lg text-pink-500 font-bold mt-8 animate-soft-pulse bg-white/80 px-8 py-3 rounded-full shadow-lg border border-pink-200">
+            اضغطي للبدء ✨
+        </p>
+    </div>
+
+    <!-- 2. شاشة الصور -->
+    <div id="photo-screen" class="z-10 hidden flex-col items-center justify-center p-4 md:p-6 w-full max-w-md absolute transition-all duration-500">
+        <div id="polaroid-frame" class="w-full max-w-sm aspect-[4/5] polaroid transform rotate-2 mx-auto">
+            <div class="w-full flex-1 overflow-hidden relative bg-pink-50 rounded flex items-center justify-center border border-gray-100">
+                <img id="current-photo" src="" alt="Memory" class="w-full h-full object-cover photo-zoom transition-opacity duration-700 opacity-0">
+            </div>
+            <div class="w-full min-h-[40px] flex items-center justify-center mt-3 px-1">
+                <p id="photo-caption" class="text-gray-800 font-bold text-sm md:text-base leading-tight text-center transition-opacity duration-500 opacity-0"></p>
+            </div>
+        </div>
+        <p class="text-pink-500/80 mt-8 text-sm font-bold animate-soft-pulse bg-white/50 px-4 py-1 rounded-full">اضغطي للتالي</p>
+    </div>
+
+    <!-- 3. الشاشة الإضافية (الدردشة الوهمية) -->
+    <div id="chat-screen" class="z-10 hidden flex-col items-center justify-center p-6 w-full max-w-md absolute transition-all duration-500">
+        <div class="chat-container w-full max-w-sm">
+            <div class="chat-header">
+                <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center text-xl">🦆</div>
+                <div>
+                    <h3 class="font-bold text-sm leading-tight">البطوطة 🤍</h3>
+                    <p class="text-xs text-green-200" id="typing-indicator">متصل الآن</p>
+                </div>
+            </div>
+            <div class="chat-body scrollbar-hide" id="chat-messages">
+                <!-- الرسائل ستضاف هنا برمجياً -->
+            </div>
+        </div>
+        <button id="chat-next-btn" class="mt-6 bg-pink-500 text-white text-sm font-bold px-8 py-2 rounded-full opacity-0 pointer-events-none transition-opacity duration-500 shadow-lg">كملي ✨</button>
+    </div>
+
+    <!-- 4. الشاشة الإضافية (شهادة التقدير) -->
+    <div id="certificate-screen" class="z-10 hidden flex-col items-center justify-center p-6 w-full max-w-md absolute transition-all duration-500">
+        <div class="certificate-container w-full">
+            <div class="text-4xl mb-2">🏆</div>
+            <h2 class="text-xl font-bold text-soft-gold mb-4">شهادة تقدير وتفوق</h2>
+            <p class="text-gray-700 text-sm leading-relaxed mb-4">
+                تشهد إدارة الأصدقاء (وأنا شخصياً) بأن:<br>
+                <span class="text-xl font-bold text-pink-600 block my-2">بطوطة 🦆</span>
+                هي صاحبة أطيب قلب وألذ ضحكة، وتستحق كل السعادة في الدنيا!
+            </p>
+            <div class="flex justify-between items-end mt-6 text-xs text-gray-500 border-t border-gray-200 pt-2">
+                <div class="text-center">
+                    <p>التوقيع</p>
+                    <p class="font-bold text-gray-800">أنا 😉</p>
+                </div>
+                <div class="w-12 h-12 rounded-full border-2 border-red-500 text-red-500 flex items-center justify-center font-bold text-[10px] transform -rotate-12">مُعتمد</div>
+            </div>
+        </div>
+        <p class="text-pink-500/80 mt-8 text-sm font-bold animate-soft-pulse bg-white/60 px-6 py-2 rounded-full shadow-sm">اضغطي للتالي ✨</p>
+    </div>
+
+    <!-- 5. الشاشة الإضافية (مصباح علاء الدين) -->
+    <div id="lamp-screen" class="z-10 hidden flex-col items-center justify-center p-6 w-full max-w-md absolute transition-all duration-500">
+        <div class="w-full bg-gradient-to-br from-indigo-900 via-purple-900 to-black text-white p-8 rounded-3xl shadow-2xl relative overflow-hidden text-center border-2 border-indigo-500">
+            <h2 class="text-3xl font-bold text-yellow-400 mb-6 drop-shadow-md">المصباح السحري 🪔</h2>
+            <p class="text-base text-white font-bold mb-10 bg-white/10 px-4 py-3 rounded-xl shadow backdrop-blur-sm border border-white/20">
+                امسحي المصباح (دوسي عليه) 3 مرات عشان المارد يطلع!
+            </p>
+            <div id="magic-lamp" class="text-8xl drop-shadow-[0_0_15px_rgba(255,215,0,0.8)] mx-auto">🪔</div>
+            
+            <div id="genie-container" class="absolute inset-0 flex flex-col items-center justify-center bg-black/95 hidden z-30 opacity-0 backdrop-blur-md transition-opacity duration-1000">
+                <div class="text-7xl mb-4 animate-bounce">🧞‍♂️</div>
+                <p class="text-xl text-white font-bold text-center px-4 leading-relaxed">
+                    شبيك لبيك.. أنا معنديش 3 أمنيات!<br>
+                    أنا عندي أمنية واحدة وهي إنك تفضلي مبسوطة 😂✨<br>
+                    <span class="text-yellow-400 text-sm mt-6 block animate-pulse">جاري تحضير المفاجأة...</span>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 6. الشاشة الإضافية (اختراق النظام) -->
+    <div id="hacker-screen" class="z-10 hidden flex-col items-center justify-center p-6 w-full max-w-md absolute transition-all duration-500">
+        <div class="w-full bg-black p-6 rounded-3xl shadow-2xl border-2 border-green-500 flex flex-col justify-start min-h-[350px] overflow-hidden">
+            <div class="w-full flex flex-col text-green-400 font-mono text-sm sm:text-base overflow-hidden leading-relaxed">
+                <p class="hacker-line">> Initializing Batoota_System.exe...</p>
+                <p class="hacker-line">> Bypassing firewalls... [OK]</p>
+                <p class="hacker-line">> Accessing Happy Memories Database...</p>
+                <p class="hacker-line text-yellow-400">> ALERT: Too much cuteness detected! ⚠️</p>
+                <p class="hacker-line">> Downloading smiles... 100%</p>
+                <p class="hacker-line">> Injecting Birthday Magic... 100%</p>
+                <p class="hacker-line font-bold text-white bg-green-600 px-2 mt-4 inline-block self-start">> SYSTEM HACKED SUCCESSFULLY 🔓</p>
+                <p class="hacker-line mt-4">> Welcome, Batoota.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 7. الشاشة النهائية (الاحتفال) -->
+    <div id="final-screen" class="z-10 hidden flex-col items-center justify-center p-6 w-full max-w-lg absolute text-center transition-all duration-500">
+        <div class="text-7xl mb-4" id="final-cake">🎂</div>
+        <div class="bg-white/10 backdrop-blur-md p-6 md:p-8 rounded-3xl shadow-2xl shadow-pink-500/50 border-2 border-pink-300/30 w-full relative">
+            <div class="absolute -top-5 -right-4 text-4xl rotate-12">🦆</div>
+            <div class="absolute -bottom-5 -left-4 text-4xl -rotate-12">💖</div>
+            <p id="typed-message" class="text-white font-bold text-base md:text-lg leading-relaxed min-h-[150px] text-right typing-cursor drop-shadow-md"></p>
+        </div>
+        
+        <div id="action-buttons" class="mt-8 flex flex-wrap justify-center gap-4 hidden opacity-0 transition-opacity duration-500">
+            <button id="replay-btn" class="bg-white/20 text-white border border-white/50 font-bold py-3 px-6 rounded-full shadow-lg hover:bg-white/30 transform transition-all hover:scale-105 active:scale-95">
+                إعادة 🔄
+            </button>
+            <button id="play-game-btn" class="bg-gradient-to-r from-pink-400 to-pink-500 text-white font-bold py-3 px-6 rounded-full shadow-[0_0_15px_rgba(236,72,153,0.6)] hover:shadow-[0_0_25px_rgba(236,72,153,0.8)] transform transition-all hover:scale-105 active:scale-95 animate-pulse">
+                العب مع بطوطة 🎮
+            </button>
+        </div>
+    </div>
+
+    <!-- 8. شاشة اللعبة (تملأ الشاشة بالكامل) -->
+    <div id="game-screen" class="z-50 hidden absolute inset-0 transition-opacity duration-500">
+        
+        <div class="absolute top-6 left-0 right-0 flex justify-between items-center px-4 md:px-8 pointer-events-none z-10">
+            <div class="text-xl md:text-2xl font-bold text-pink-600 bg-white/90 backdrop-blur-sm px-5 py-2 rounded-full border-2 border-pink-200 shadow-lg pointer-events-auto">
+                التورت: <span id="game-score">0</span> 🎂
+            </div>
+            <button id="close-game-btn" class="text-gray-700 hover:text-white hover:bg-red-500 font-bold bg-white/90 px-5 py-2 rounded-full shadow-lg transition-all pointer-events-auto border-2 border-gray-200">
+                خروج ❌
+            </button>
+        </div>
+
+        <canvas id="gameCanvas" class="w-full h-full block touch-none"></canvas>
+        
+        <div id="game-over-overlay" class="absolute inset-0 bg-black/70 flex flex-col items-center justify-center hidden backdrop-blur-sm z-20">
+            <div class="text-7xl mb-4">💥🦆</div>
+            <h2 class="text-4xl md:text-5xl font-bold text-white mb-4 drop-shadow-lg text-center">جيم أوفر يا بطوطة!</h2>
+            <p class="text-pink-400 font-bold text-2xl md:text-3xl mb-8">جمعتي: <span id="final-score">0</span> تورتة 🎂</p>
+            <button id="restart-game-btn" class="bg-gradient-to-r from-pink-500 to-pink-600 text-white text-xl font-bold py-4 px-10 rounded-full shadow-[0_0_20px_rgba(236,72,153,0.5)] transform transition-transform active:scale-95 border-2 border-white">
+                العب تاني 🔄
+            </button>
+        </div>
+        
+        <div id="game-start-overlay" class="absolute inset-0 bg-black/50 flex flex-col items-center justify-center backdrop-blur-sm z-20">
+            <div class="text-7xl mb-4 animate-bounce">🦆</div>
+            <p class="text-white font-bold text-2xl md:text-3xl mb-8 drop-shadow-lg text-center px-6 leading-relaxed">
+                المسي الشاشة عشان تنطي وتجمعي التورت 🎂<br>
+                <span class="text-yellow-300">واحذري الصخور 🪨</span>
+            </p>
+            <button id="start-running-btn" class="bg-gradient-to-r from-pink-400 to-pink-500 text-white text-xl font-bold py-4 px-12 rounded-full shadow-[0_0_20px_rgba(236,72,153,0.5)] border-2 border-white hover:scale-105 transition-transform">
+                يالا بينا 🚀
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // ==========================================
+        // إعدادات الموقع الأساسية
+        // ==========================================
+        const introMusic = "intro.mp3"; 
+        const preFinalAudio = "pre-final.mp3"; 
+        const celebrationAudio = "fireworks.mp3"; 
+        
+        const memories = [
+            { image: "1.jpg", audio: "song1.mp3", caption: "" },
+            { image: "2.jpg", audio: "song2.mp3", caption: "" },
+            { image: "3.jpg", audio: "song3.mp3", caption: "" },
+            { image: "4.jpg", audio: "song4.mp3", caption: "" },
+            { image: "5.jpg", audio: "song5.mp3", caption: "دي بقا الصورة الي طلبتيها مني  😉🦆" }
+        ];
+
+        // نصوص الدردشة الوهمية
+        const chatScript = [
+            { sender: 'me', text: "ها.. مستعدة للمفاجأة اللي جاية؟ 😎", delay: 1000 },
+            { sender: 'batoota', text: "يا ساتر.. ربنا يستر 😂", delay: 2000 },
+            { sender: 'me', text: "عيب عليكي، ده أنا مظبطك! شوف اللي جاي 🎁", delay: 1500 }
+        ];
+
+        const finalMessage = "في الآخر بقا كل سنة وانتي طيبة يا اجمل واحن واطيب بطوط 🦆🤍\nمع اني عارفك من فترة قصيرة بس بقيتي من اقرب الناس ليا ماشاء الله عندك قبول رهيب ✨\nإنسانة طيبة وجميلة وقلبك ابيض وتستاهلي كل خير 🌸\nيارب كل سنة تعدي عليكي تكوني سعيدة وتحققي كل احلامك وامنياتك وتعيشي الحياة الي بتتمنيها يارب 🤲🎂\nكل سنة وانتي طيبة وعيد ميلاد سعيد وكل سنة واحنا مع بعض 🎉💖";
+
+        // ==========================================
+        // متغيرات الموقع
+        // ==========================================
+        let currentState = -1; 
+        let isTyping = false;
+        let isChatting = false;
+        let isHacking = false;
+        let lampRubs = 0;
+        let fireworkInterval;
+
+        const container = document.getElementById('main-container');
+        const introScreen = document.getElementById('intro-screen');
+        const photoScreen = document.getElementById('photo-screen');
+        const chatScreen = document.getElementById('chat-screen');
+        const certificateScreen = document.getElementById('certificate-screen');
+        const lampScreen = document.getElementById('lamp-screen');
+        const hackerScreen = document.getElementById('hacker-screen');
+        const finalScreen = document.getElementById('final-screen');
+        const gameScreen = document.getElementById('game-screen');
+        const actionButtons = document.getElementById('action-buttons');
+        
+        const photoImg = document.getElementById('current-photo');
+        const photoCaption = document.getElementById('photo-caption');
+        const typedMessage = document.getElementById('typed-message');
+        const polaroidFrame = document.getElementById('polaroid-frame');
+        const audioPlayer = document.getElementById('audio-player');
+
+        const replayBtn = document.getElementById('replay-btn');
+        const playGameBtn = document.getElementById('play-game-btn');
+        const closeGameBtn = document.getElementById('close-game-btn');
+
+        function playAudio(audioSrc) {
+            audioPlayer.pause();
+            audioPlayer.src = audioSrc;
+            audioPlayer.currentTime = 0;
+            audioPlayer.play().catch(e => console.log("الصوت محتاج تفاعل مباشر"));
+        }
+
+        function createTapEffect(x, y) {
+            if(!gameScreen.classList.contains('hidden') || isHacking) return;
+            const tapIcons = ['💖', '🦆', '✨', '🤍'];
+            const el = document.createElement('div');
+            el.classList.add('tap-effect');
+            el.innerText = tapIcons[Math.floor(Math.random() * tapIcons.length)];
+            el.style.left = `${x - 15}px`;
+            el.style.top = `${y - 15}px`;
+            document.body.appendChild(el);
+            setTimeout(() => el.remove(), 1000);
+        }
+
+        function createFirework(x, y) {
+            const colors = ['#ff6b6b', '#feca57', '#1dd1a1', '#5f27cd', '#ff9ff3'];
+            const color = colors[Math.floor(Math.random() * colors.length)];
+            for(let i=0; i<10; i++) {
+                const el = document.createElement('div');
+                el.classList.add('firework');
+                el.style.left = `${x}px`; el.style.top = `${y}px`;
+                el.style.color = color; el.style.backgroundColor = color;
+                const angle = (i * 36) * (Math.PI / 180);
+                const distance = 50 + Math.random() * 80;
+                el.style.transform = `translate(${Math.cos(angle)*distance}px, ${Math.sin(angle)*distance}px) scale(0)`;
+                document.body.appendChild(el);
+                setTimeout(() => el.remove(), 1000);
+            }
+        }
+
+        function startCelebration() {
+            document.body.classList.add('dark-mode');
+            playAudio(celebrationAudio);
+            fireworkInterval = setInterval(() => {
+                const x = Math.random() * window.innerWidth;
+                const y = Math.random() * (window.innerHeight / 2);
+                createFirework(x, y);
+            }, 600);
+        }
+
+        function stopCelebration() {
+            document.body.classList.remove('dark-mode');
+            clearInterval(fireworkInterval);
+            audioPlayer.pause();
+        }
+
+        function updateScreen() {
+            if (currentState === -1) {
+                stopCelebration();
+                transitionScreens(finalScreen, introScreen);
+                transitionScreens(hackerScreen, introScreen);
+                transitionScreens(lampScreen, introScreen);
+                transitionScreens(certificateScreen, introScreen);
+                transitionScreens(chatScreen, introScreen);
+                transitionScreens(photoScreen, introScreen);
+                playAudio(introMusic);
+            } else if (currentState >= 0 && currentState < memories.length) {
+                if (currentState === 0) transitionScreens(introScreen, photoScreen);
+                loadPhoto(currentState);
+            } else if (currentState === memories.length) {
+                transitionScreens(photoScreen, chatScreen);
+                playAudio(preFinalAudio);
+                startChat();
+            } else if (currentState === memories.length + 1) {
+                transitionScreens(chatScreen, certificateScreen);
+            } else if (currentState === memories.length + 2) {
+                transitionScreens(certificateScreen, lampScreen);
+            } else if (currentState === memories.length + 3) {
+                transitionScreens(lampScreen, hackerScreen);
+                startHacking();
+            } else if (currentState === memories.length + 4) {
+                transitionScreens(hackerScreen, finalScreen);
+                startCelebration();
+                setTimeout(startTypingEffect, 800);
+            }
+        }
+
+        function transitionScreens(hideEl, showEl) {
+            if (!hideEl.classList.contains('hidden')) {
+                hideEl.classList.remove('fade-enter-active');
+                hideEl.classList.add('fade-exit-active');
+                setTimeout(() => {
+                    hideEl.classList.add('hidden');
+                    hideEl.classList.remove('fade-exit-active');
+                    showEl.classList.remove('hidden');
+                    showEl.classList.add('fade-enter');
+                    void showEl.offsetWidth;
+                    showEl.classList.remove('fade-enter');
+                    showEl.classList.add('fade-enter-active');
+                }, 400);
+            } else {
+                showEl.classList.remove('hidden');
+                showEl.classList.add('fade-enter');
+                void showEl.offsetWidth;
+                showEl.classList.remove('fade-enter');
+                showEl.classList.add('fade-enter-active');
+            }
+        }
+
+        function loadPhoto(index) {
+            const memory = memories[index];
+            photoImg.classList.remove('opacity-100'); photoImg.classList.add('opacity-0');
+            photoCaption.classList.remove('opacity-100'); photoCaption.classList.add('opacity-0');
+            playAudio(memory.audio);
+            const randomRotation = (Math.random() * 8) - 4;
+            polaroidFrame.style.transform = `rotate(${randomRotation}deg) scale(0.95)`;
+
+            setTimeout(() => {
+                photoImg.src = memory.image;
+                photoImg.onload = () => {
+                    polaroidFrame.style.transform = `rotate(${randomRotation}deg) scale(1)`;
+                    photoImg.classList.remove('opacity-0'); photoImg.classList.add('opacity-100');
+                    photoCaption.innerText = memory.caption; 
+                    photoCaption.classList.remove('opacity-0'); photoCaption.classList.add('opacity-100');
+                };
+                photoImg.onerror = () => {
+                    polaroidFrame.style.transform = `rotate(${randomRotation}deg) scale(1)`;
+                    photoCaption.innerText = memory.caption; 
+                    photoCaption.classList.remove('opacity-0'); photoCaption.classList.add('opacity-100');
+                };
+            }, 400);
+        }
+
+        // --- تشغيل الدردشة الوهمية ---
+        function startChat() {
+            if (isChatting) return;
+            isChatting = true;
+            const chatBody = document.getElementById('chat-messages');
+            const typingIndicator = document.getElementById('typing-indicator');
+            chatBody.innerHTML = '';
+            
+            let totalDelay = 0;
+            
+            chatScript.forEach((msg, index) => {
+                totalDelay += msg.delay;
+                
+                setTimeout(() => {
+                    if(msg.sender === 'batoota') {
+                        typingIndicator.innerText = "يكتب...";
+                        setTimeout(() => typingIndicator.innerText = "متصل الآن", 1000);
+                    }
+                    
+                    const bubble = document.createElement('div');
+                    bubble.classList.add('chat-bubble');
+                    bubble.classList.add(msg.sender === 'me' ? 'chat-sent' : 'chat-received');
+                    bubble.innerText = msg.text;
+                    chatBody.appendChild(bubble);
+                    
+                    chatBody.scrollTop = chatBody.scrollHeight;
+                    
+                    setTimeout(() => bubble.classList.add('show'), 50);
+
+                    if(index === chatScript.length - 1) {
+                        isChatting = false;
+                        document.getElementById('chat-next-btn').classList.remove('opacity-0', 'pointer-events-none');
+                    }
+                }, totalDelay);
+            });
+        }
+
+        document.getElementById('chat-next-btn').addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (currentState === memories.length) {
+                currentState++; updateScreen();
+            }
+        });
+
+        // --- مصباح علاء الدين ---
+        document.getElementById('magic-lamp').addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (currentState !== memories.length + 2) return;
+            
+            lampRubs++;
+            const lamp = document.getElementById('magic-lamp');
+            lamp.style.transform = `scale(0.9) rotate(${(lampRubs%2===0)?-15:15}deg)`;
+            setTimeout(() => lamp.style.transform = 'scale(1) rotate(0deg)', 150);
+
+            if (lampRubs >= 3) {
+                const genie = document.getElementById('genie-container');
+                genie.classList.remove('hidden');
+                setTimeout(() => genie.classList.remove('opacity-0'), 100);
+                
+                setTimeout(() => {
+                    currentState++;
+                    updateScreen();
+                }, 4000); // النقلة التلقائية
+            }
+        });
+
+        // --- اختراق النظام ---
+        function startHacking() {
+            isHacking = true;
+            const lines = document.querySelectorAll('.hacker-line');
+            let delay = 500;
+            
+            lines.forEach((line, index) => {
+                setTimeout(() => {
+                    line.style.opacity = 1;
+                    if(index === lines.length - 1) {
+                        setTimeout(() => {
+                            isHacking = false;
+                            currentState++;
+                            updateScreen();
+                        }, 2500); 
+                    }
+                }, delay);
+                delay += 700 + Math.random() * 600;
+            });
+        }
+
+        // --- الرسالة النهائية ---
+        function startTypingEffect() {
+            if (isTyping) return;
+            isTyping = true;
+            typedMessage.innerHTML = '';
+            
+            const cake = document.getElementById('final-cake');
+            cake.style.animation = 'floatUp 1.5s cubic-bezier(0.34, 1.56, 0.64, 1)';
+            setTimeout(() => { cake.style.animation = ''; }, 1500);
+
+            let i = 0;
+            let currentText = '';
+
+            function typeWriter() {
+                if (i < finalMessage.length) {
+                    const char = finalMessage.charAt(i);
+                    if (char === '\n') currentText += '<br><br>'; else currentText += char;
+                    typedMessage.innerHTML = currentText;
+                    i++;
+                    let speed = 30 + Math.random() * 40;
+                    if (char === ' ' || char === '\n') speed = 80;
+                    setTimeout(typeWriter, speed);
+                } else {
+                    isTyping = false;
+                    typedMessage.classList.remove('typing-cursor');
+                    actionButtons.classList.remove('hidden');
+                    setTimeout(() => { actionButtons.style.opacity = '1'; }, 100);
+                }
+            }
+            setTimeout(typeWriter, 500);
+        }
+
+        // --- التحكم المركزي ---
+        container.addEventListener('click', (e) => {
+            if(!gameScreen.classList.contains('hidden')) return;
+
+            if(currentState === memories.length + 4) createFirework(e.clientX, e.clientY);
+            else if (!isHacking) createTapEffect(e.clientX, e.clientY);
+
+            if(currentState === -1 && audioPlayer.src === "") {
+                 audioPlayer.src = "data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAgAAAAEA";
+                 audioPlayer.play().catch(e=>console.log(e));
+            }
+
+            if (isTyping || isChatting || isHacking || e.target.closest('#action-buttons') || e.target.closest('#chat-next-btn') || e.target.closest('#magic-lamp')) return;
+            
+            // الشاشات الخاصة لا يتم تخطيها بالنقر
+            if(currentState === memories.length || currentState === memories.length + 2 || currentState === memories.length + 3) return;
+
+            if (currentState < memories.length + 4) {
+                currentState++; updateScreen();
+            }
+        });
+
+        replayBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            currentState = -1;
+            lampRubs = 0; // إعادة التصفير
+            isHacking = false;
+            document.querySelectorAll('.hacker-line').forEach(el => el.style.opacity = 0);
+            document.getElementById('genie-container').classList.add('hidden');
+            document.getElementById('genie-container').classList.add('opacity-0');
+            typedMessage.innerHTML = '';
+            typedMessage.classList.add('typing-cursor');
+            actionButtons.style.opacity = '0';
+            setTimeout(() => actionButtons.classList.add('hidden'), 300);
+            updateScreen();
+        });
+
+
+        // ==========================================
+        // 🎮 كود اللعبة (Batoota Runner Fullscreen) 🎮
+        // ==========================================
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        const scoreDisplay = document.getElementById('game-score');
+        const finalScoreDisplay = document.getElementById('final-score');
+        const gameOverOverlay = document.getElementById('game-over-overlay');
+        const gameStartOverlay = document.getElementById('game-start-overlay');
+        const restartGameBtn = document.getElementById('restart-game-btn');
+        const startRunningBtn = document.getElementById('start-running-btn');
+
+        let GRAVITY = 0.8;
+        let JUMP_FORCE = -14;
+        let GROUND_Y = 0; 
+        
+        let gameLoopId;
+        let isGameRunning = false;
+        let score = 0;
+        let gameSpeed = 5;
+        let frameCount = 0;
+        let clouds = [];
+
+        const duck = {
+            x: 60,
+            y: 0,
+            width: 50,
+            height: 50,
+            dy: 0,
+            isJumping: false,
+            draw: function() {
+                ctx.save();
+                ctx.font = '60px Arial';
+                ctx.textBaseline = 'middle';
+                ctx.textAlign = 'center';
+
+                ctx.translate(this.x + this.width / 2, this.y + this.height / 2);
+                ctx.scale(-1, 1);
+
+                if(this.isJumping) ctx.rotate(-0.1); 
+
+                ctx.fillText('🦆', 0, 0);
+                ctx.restore();
+            },
+            update: function() {
+                this.dy += GRAVITY;
+                this.y += this.dy;
+
+                if (this.y + this.height > GROUND_Y) {
+                    this.y = GROUND_Y - this.height;
+                    this.dy = 0;
+                    this.isJumping = false;
+                }
+            },
+            jump: function() {
+                if (!this.isJumping) {
+                    this.dy = JUMP_FORCE;
+                    this.isJumping = true;
+                }
+            }
+        };
+
+        let obstacles = [];
+        let cakes = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            GROUND_Y = canvas.height - 120; 
+            
+            if(!duck.isJumping) duck.y = GROUND_Y - duck.height;
+
+            if(clouds.length === 0) {
+                clouds = [
+                    {x: window.innerWidth * 0.2, y: window.innerHeight * 0.15, speed: 0.5},
+                    {x: window.innerWidth * 0.6, y: window.innerHeight * 0.25, speed: 0.8},
+                    {x: window.innerWidth * 0.9, y: window.innerHeight * 0.1, speed: 0.6}
+                ];
+            }
+        }
+
+        window.addEventListener('resize', resizeCanvas);
+
+        function spawnEntities() {
+            let spawnRate = Math.max(50, 90 - (gameSpeed * 2)); 
+            if (frameCount % Math.floor(spawnRate) === 0) {
+                if (Math.random() > 0.4) {
+                    cakes.push({
+                        x: canvas.width + 50,
+                        y: GROUND_Y - 50 - (Math.random() * 80),
+                        width: 45, height: 45
+                    });
+                } else {
+                    obstacles.push({
+                        x: canvas.width + 50,
+                        y: GROUND_Y - 45,
+                        width: 45, height: 45
+                    });
+                }
+            }
+        }
+
+        function drawEnvironment() {
+            let skyGrad = ctx.createLinearGradient(0, 0, 0, canvas.height);
+            skyGrad.addColorStop(0, '#87CEEB'); 
+            skyGrad.addColorStop(1, '#e0f6ff'); 
+            ctx.fillStyle = skyGrad;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            ctx.font = '50px Arial';
+            ctx.textAlign = 'center';
+            clouds.forEach(c => {
+                c.x -= c.speed;
+                if(c.x < -100) c.x = canvas.width + 100;
+                ctx.fillText('☁️', c.x, c.y);
+            });
+
+            ctx.fillStyle = '#8B4513';
+            ctx.fillRect(0, GROUND_Y, canvas.width, canvas.height - GROUND_Y);
+            ctx.fillStyle = '#228B22';
+            ctx.fillRect(0, GROUND_Y, canvas.width, 20);
+        }
+
+        function checkCollision(rect1, rect2) {
+            const padding = 15; 
+            return (
+                rect1.x + padding < rect2.x + rect2.width - padding &&
+                rect1.x + rect1.width - padding > rect2.x + padding &&
+                rect1.y + padding < rect2.y + rect2.height - padding &&
+                rect1.y + rect1.height - padding > rect2.y + padding
+            );
+        }
+
+        function gameLoop() {
+            if (!isGameRunning) return;
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            drawEnvironment();
+
+            duck.update();
+            duck.draw();
+
+            spawnEntities();
+
+            for (let i = obstacles.length - 1; i >= 0; i--) {
+                let obs = obstacles[i];
+                obs.x -= gameSpeed;
+                ctx.font = '50px Arial';
+                ctx.textBaseline = 'top';
+                ctx.textAlign = 'left';
+                ctx.fillText('🪨', obs.x, obs.y);
+
+                if (checkCollision(duck, obs)) {
+                    gameOver();
+                }
+                if (obs.x + obs.width < -100) obstacles.splice(i, 1);
+            }
+
+            for (let i = cakes.length - 1; i >= 0; i--) {
+                let cake = cakes[i];
+                cake.x -= gameSpeed;
+                ctx.font = '50px Arial';
+                ctx.fillText('🎂', cake.x, cake.y);
+
+                if (checkCollision(duck, cake)) {
+                    cakes.splice(i, 1);
+                    score++;
+                    scoreDisplay.innerText = score;
+                    if(score % 5 === 0) gameSpeed += 0.6; 
+                } else if (cake.x + cake.width < -100) {
+                    cakes.splice(i, 1);
+                }
+            }
+
+            frameCount++;
+            gameLoopId = requestAnimationFrame(gameLoop);
+        }
+
+        function initGameParams() {
+            resizeCanvas();
+            score = 0;
+            gameSpeed = 6;
+            frameCount = 0;
+            obstacles = [];
+            cakes = [];
+            scoreDisplay.innerText = score;
+            duck.y = GROUND_Y - duck.height;
+            duck.dy = 0;
+            duck.isJumping = false;
+        }
+
+        function startGameEngine() {
+            initGameParams();
+            isGameRunning = true;
+            gameStartOverlay.classList.add('hidden');
+            gameOverOverlay.classList.add('hidden');
+            gameLoop();
+        }
+
+        function gameOver() {
+            isGameRunning = false;
+            cancelAnimationFrame(gameLoopId);
+            finalScoreDisplay.innerText = score;
+            gameOverOverlay.classList.remove('hidden');
+        }
+
+        playGameBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            stopCelebration();
+            transitionScreens(finalScreen, gameScreen);
+            
+            initGameParams();
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            drawEnvironment();
+            duck.draw();
+            gameStartOverlay.classList.remove('hidden');
+            gameOverOverlay.classList.add('hidden');
+        });
+
+        closeGameBtn.addEventListener('click', () => {
+            isGameRunning = false;
+            cancelAnimationFrame(gameLoopId);
+            transitionScreens(gameScreen, finalScreen);
+            startCelebration();
+        });
+
+        startRunningBtn.addEventListener('click', startGameEngine);
+        restartGameBtn.addEventListener('click', startGameEngine);
+
+        canvas.addEventListener('mousedown', () => { if(isGameRunning) duck.jump(); });
+        canvas.addEventListener('touchstart', (e) => { 
+            e.preventDefault(); 
+            if(isGameRunning) duck.jump(); 
+        }, {passive: false});
+
+        window.addEventListener('keydown', (e) => {
+            if ((e.code === 'Space' || e.code === 'ArrowUp') && isGameRunning) {
+                e.preventDefault();
+                duck.jump();
+            }
+        });
+
+        setInterval(() => {
+            if(!gameScreen.classList.contains('hidden') || currentState === memories.length + 4 || isHacking || currentState === memories.length + 2) return;
+            const container = document.getElementById('particles-container');
+            const items = ['💖', '🤍', '🦆', '✨'];
+            const el = document.createElement('div');
+            el.classList.add('particle');
+            el.innerText = items[Math.floor(Math.random() * items.length)];
+            el.style.left = `${Math.random() * 100}vw`;
+            el.style.fontSize = `${1 + Math.random() * 1.5}rem`;
+            el.style.animationDuration = `${10 + Math.random() * 8}s`;
+            container.appendChild(el);
+            setTimeout(() => el.remove(), 20000);
+        }, 600);
+
+        window.addEventListener('load', () => {
+            memories.forEach(mem => { const img = new Image(); img.src = mem.image; });
+            introScreen.classList.add('fade-enter-active');
+        });
+
+    </script>
+</body>
+</html>
